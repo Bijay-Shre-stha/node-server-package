@@ -1,0 +1,29 @@
+{
+  "name": "node-server",
+  "version": "1.0.0",
+  "description": "Package that helps developers to generate files and folder in structure way, making project organization easier.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bijay-Shre-stha/node-server-package.git"
+  },
+  "keywords": [
+    "node",
+    "file-generator",
+    "cli-tool",
+    "CLI",
+    "scaffolding",
+    "folder-structure",
+    "project-generator",
+    "express"
+  ],
+  "author": "Bijay Shrestha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bijay-Shre-stha/node-server-package/issues"
+  },
+  "homepage": "https://github.com/Bijay-Shre-stha/node-server-package#readme"
+}
