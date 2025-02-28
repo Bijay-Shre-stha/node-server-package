@@ -1,6 +1,6 @@
 {
-  "name": "node-server",
-  "version": "1.0.0",
+  "name": "xpress-backend",
+  "version": "1.0.3",
   "description": "Package that helps developers to generate files and folder in structure way, making project organization easier.",
   "main": "index.js",
   "type": "module",
@@ -23,7 +23,7 @@
     "express"
   ],
   "author": "Bijay Shrestha",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Bijay-Shre-stha/node-server-package/issues"
   },
