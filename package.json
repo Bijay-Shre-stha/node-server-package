@@ -12,6 +12,13 @@
     "type": "git",
     "url": "git+https://github.com/Bijay-Shre-stha/node-server-package.git"
   },
+  "files": [
+    "index.js",
+    "templates/"
+  ],
+  "bin":{
+    "xpress-backend":"index.js"
+  },
   "keywords": [
     "node",
     "file-generator",

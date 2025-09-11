@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
-const logger = require("./middlewares/logger");
+const logger = require("./middlewares/logger.js");
 const router = express.Router();
 
 const app = express();

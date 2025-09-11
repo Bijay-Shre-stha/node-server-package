@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import fs from "fs-extra";
 import path from "path";
 import inquirer from "inquirer";
@@ -8,7 +10,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const SRC_DIR = path.join(__dirname, "src");
+const TEMPLATE_DIR = path.join(__dirname, "templates");
 const TARGET_DIR = process.cwd();
 
 const QUESTIONS = [
@@ -41,7 +43,7 @@ async function createProject() {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         // Copy template files
-        fs.copySync(SRC_DIR, projectPath);
+        fs.copySync(TEMPLATE_DIR, projectPath);
 
         // Replace placeholders in package.json
         const packageJsonPath = path.join(projectPath, "package.json");
