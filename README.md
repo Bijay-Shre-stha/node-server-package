@@ -35,6 +35,32 @@ A powerful and efficient CLI tool for generating a structured Express.js API wit
 }
 ```
 
+## 🚀 Installation & Usage  
+
+You can use this CLI tool in two ways:
+
+### ⚡ One-Time Run (Recommended)  
+
+Run directly without installing globally:  
+
+```bash
+npx xpress-backend
+```
+### 🌍 Global Installation
+Install the CLI tool globally:  
+
+```bash
+npm install -g xpress-backend
+```
+
+Then, create a new project by running:  
+
+```bash
+xpress-backend
+```
+
+
+
 ## 📂 Project Structure
 
 ```
