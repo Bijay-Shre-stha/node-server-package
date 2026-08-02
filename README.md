@@ -64,7 +64,7 @@ xpress-backend
 ## 📂 Project Structure
 
 ```
-📦 node-express-cli-generator
+📦 xpress-backend
  ┣ 📂 config
  ┃ ┗ 📜 database.js
  ┣ 📂 controllers
@@ -95,7 +95,7 @@ xpress-backend
 1. Clone the repository
 
 ```bash
-git clone https://github.com/Bijay-Shre-stha/node-server.git
+git clone https://github.com/Bijay-Shre-stha/node-server-package.git
 ```
 
 2. Navigate to the project directory
