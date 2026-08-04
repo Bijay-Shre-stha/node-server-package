@@ -116,6 +116,30 @@ npm install || yarn install
 npm run start || yarn start
 ```
 
+## 🚀 Auto-Release
+
+This project uses GitHub Actions to automatically publish to npm and create a git tag when a version bump is pushed to `main`.
+
+### How it works
+
+1. Bump the version in `package.json` and commit to `main`
+2. The workflow detects the change, publishes the new version to npm, and creates a `v<version>` tag automatically
+
+### Setup
+
+Add your npm token as a GitHub secret:
+
+1. Go to **Settings → Secrets and variables → Actions** in the repository
+2. Click **New repository secret**
+3. Set **Name** to `NPM_TOKEN`
+4. Set **Value** to your npm access token (generate at [npm tokens](https://www.npmjs.com/settings/tokens))
+
+### Manual publish
+
+```bash
+npm publish --access public
+```
+
 ## 🛠️ Contributing
 
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
