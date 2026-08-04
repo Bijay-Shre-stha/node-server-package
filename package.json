@@ -1,7 +1,7 @@
 {
   "name": "xpress-backend",
-  "version": "1.0.5",
-  "description": "Package that helps developers to generate files and folder in structure way, making project organization easier.",
+  "version": "1.1.0",
+  "description": "CLI tool to scaffold Express.js projects with MongoDB, JWT auth, Docker, TypeScript, testing, and more.",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -37,6 +37,7 @@
   "homepage": "https://github.com/Bijay-Shre-stha/node-server-package#readme",
   "dependencies": {
     "chalk": "^5.4.1",
+    "commander": "^14.0.3",
     "fs-extra": "^11.3.0",
     "inquirer": "^12.4.2",
     "ora": "^8.2.0"
