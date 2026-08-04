@@ -28,6 +28,13 @@ async function createProject() {
     const answers = await inquirer.prompt(QUESTIONS);
     const projectPath = path.join(TARGET_DIR, answers.projectName);
 
+    // Sanitize project name: only allow alphanumeric, hyphens, and underscores
+    const sanitizedName = answers.projectName.replace(/[^a-zA-Z0-9_-]/g, "");
+    if (sanitizedName !== answers.projectName) {
+        console.log(chalk.red("❌ Project name can only contain letters, numbers, hyphens, and underscores."));
+        return;
+    }
+
     if (fs.existsSync(projectPath)) {
         console.log(chalk.red("❌ Project already exists. Choose a different name."));
         return;
@@ -39,9 +46,6 @@ async function createProject() {
     }).start();
 
     try {
-        // Simulate processing time
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
         // Copy template files
         fs.copySync(TEMPLATE_DIR, projectPath);
 
@@ -60,7 +64,7 @@ async function createProject() {
         console.log(chalk.magentaBright("\n🎉 Happy Coding!\n"));
     } catch (error) {
         spinner.fail(chalk.red("❌ Error creating project!"));
-        console.error(error);
+        console.error(chalk.red(error.message));
     }
 }
 
