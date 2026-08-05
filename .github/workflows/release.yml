@@ -2,9 +2,10 @@ name: Release
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
     paths:
-      - 'package.json'
+      - package.json
 
 permissions:
   contents: write
@@ -12,6 +13,7 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -29,7 +31,7 @@ jobs:
 
       - name: Get current version
         id: version
-        run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+        run: echo "VERSION=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
 
       - name: Publish to npm
         run: npm publish --access public
@@ -40,5 +42,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag v${{ steps.version.outputs.VERSION }}
-          git push origin v${{ steps.version.outputs.VERSION }}
+
+          git tag "v${{ steps.version.outputs.VERSION }}"
+          git push origin "v${{ steps.version.outputs.VERSION }}"
