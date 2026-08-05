@@ -1,7 +1,7 @@
 {
   "name": "xpress-backend",
-  "version": "1.1.0",
-  "description": "CLI tool to scaffold Express.js projects with MongoDB, JWT auth, Docker, TypeScript, testing, and more.",
+  "version": "1.0.7",
+  "description": "Package that helps developers to generate files and folder in structure way, making project organization easier.",
   "main": "index.js",
   "type": "module",
   "scripts": {
