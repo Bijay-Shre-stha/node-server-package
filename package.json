@@ -37,6 +37,7 @@
   "homepage": "https://github.com/Bijay-Shre-stha/node-server-package#readme",
   "dependencies": {
     "chalk": "^5.4.1",
+    "commander": "^14.0.3",
     "fs-extra": "^11.3.0",
     "inquirer": "^12.4.2",
     "ora": "^8.2.0"

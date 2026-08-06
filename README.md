@@ -1,29 +1,45 @@
-# 🚀 Node Express CLI Generator  
+# 🚀 xpress-backend
 
-A powerful and efficient CLI tool for generating a structured Express.js API with built-in MongoDB support, middleware, and environment configuration. Simplify your development workflow and kickstart your next Express project in seconds! 🎯  
+A powerful CLI tool for scaffolding Express.js projects with MongoDB, authentication, Docker, TypeScript, testing, and more. Generate production-ready API structures in seconds!
 
-## ✅ Features  
+## ✅ Features
 
-- 🏗️ **Express.js Setup** with modular folder structure  
-- 🗂️ **MongoDB Integration** using Mongoose  
-- 🌍 **Environment Variables Support** with `.env`  
-- 📝 **Middleware for logging** (Morgan & custom logger)  
-- 🏛️ **Separation of Concerns** (Routes, Controllers, Models, Config)  
-- 🔄 **Nodemon for Auto-Restart** during development  
+- 🏗️ **Template Selection** — REST API, GraphQL, or Microservice
+- 🗂️ **MongoDB Integration** using Mongoose
+- 🔐 **JWT Authentication** scaffolding (register, login, protected routes)
+- 🌍 **Environment Variables** with `.env`
+- 🛡️ **Security Middleware** — Helmet, rate limiting, CORS
+- 📝 **Request Validation** with express-validator
+- 🧹 **Centralized Error Handler** middleware
+- 📝 **Logging** (Morgan & custom logger)
+- 🏛️ **Separation of Concerns** (Routes, Controllers, Models, Config, Middlewares)
+- 🔄 **Nodemon** for auto-restart during development
+- 🐳 **Docker Support** — Dockerfile + docker-compose with MongoDB
+- 📘 **TypeScript** support option
+- 🧪 **Testing** — Jest + Supertest with sample tests
+- 📏 **Code Quality** — ESLint + Prettier configs
+- 🔄 **CI/CD** — GitHub Actions workflow template
+- 🏥 **Health Check** endpoint (`/health`)
+- ⚡ **Non-Interactive Mode** for CI/CD and automation
 
 ---
 
-## 📦 Packages  
+## 📦 Packages
 
 ### 📌 Dependencies
 
 ```json
 {
-  "express": "^4.18.2",
+  "express": "^4.21.2",
   "cors": "^2.8.5",
-  "dotenv": "^16.3.1",
-  "mongoose": "^7.5.1",
-  "morgan": "^1.10.0"
+  "dotenv": "^16.4.7",
+  "mongoose": "^8.10.1",
+  "morgan": "^1.10.0",
+  "helmet": "^7.1.0",
+  "express-rate-limit": "^7.4.0",
+  "express-validator": "^7.0.1",
+  "bcryptjs": "^2.4.3",
+  "jsonwebtoken": "^9.0.2"
 }
 ```
 
@@ -31,89 +47,149 @@ A powerful and efficient CLI tool for generating a structured Express.js API wit
 
 ```json
 {
-  "nodemon": "^3.0.1"
+  "nodemon": "^3.1.9",
+  "jest": "^29.7.0",
+  "supertest": "^7.0.0",
+  "eslint": "^9.9.0",
+  "prettier": "^3.3.0"
 }
 ```
 
-## 🚀 Installation & Usage  
+---
 
-You can use this CLI tool in two ways:
+## 🚀 Installation & Usage
 
-### ⚡ One-Time Run (Recommended)  
-
-Run directly without installing globally:  
+### ⚡ One-Time Run (Recommended)
 
 ```bash
 npx xpress-backend
 ```
+
 ### 🌍 Global Installation
-Install the CLI tool globally:  
 
 ```bash
 npm install -g xpress-backend
-```
-
-Then, create a new project by running:  
-
-```bash
 xpress-backend
 ```
 
+### ⚡ Non-Interactive Mode (Flags)
 
+Skip prompts and generate a project with specific features:
 
-## 📂 Project Structure
+```bash
+# Basic REST API
+npx xpress-backend --name my-api --yes
+
+# With TypeScript
+npx xpress-backend --name my-api --ts --yes
+
+# With authentication
+npx xpress-backend --name my-api --auth --yes
+
+# With Docker support
+npx xpress-backend --name my-api --docker --yes
+
+# GraphQL template
+npx xpress-backend --name my-graphql --template graphql --yes
+
+# Microservice template
+npx xpress-backend --name my-service --template microservice --yes
+
+# Combine features
+npx xpress-backend --name my-full-api --ts --auth --docker --yes
+
+# Initialize git repo after generation
+npx xpress-backend --name my-api --git --yes
+```
+
+### Available Flags
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `-n, --name <name>` | Project name | `express-api` |
+| `-t, --template <type>` | Template type: `rest`, `graphql`, `microservice` | `rest` |
+| `--ts` | Add TypeScript support | `false` |
+| `--auth` | Add JWT authentication scaffolding | `false` |
+| `--docker` | Add Docker support | `false` |
+| `--git` | Initialize git repository | `false` |
+| `-y, --yes` | Use defaults, skip all prompts | `false` |
+
+---
+
+## 📂 Project Structure (REST Template)
 
 ```
-📦 xpress-backend
+📦 my-api
  ┣ 📂 config
  ┃ ┗ 📜 database.js
  ┣ 📂 controllers
- ┃ ┗ 📜 userController.js
+ ┃ ┣ 📜 userController.js
+ ┃ ┗ 📜 authController.js        ← with --auth
  ┣ 📂 middlewares
- ┃ ┗ 📜 logger.js
+ ┃ ┣ 📜 logger.js
+ ┃ ┣ 📜 errorHandler.js           ← new
+ ┃ ┗ 📜 auth.js                   ← with --auth
  ┣ 📂 models
  ┃ ┗ 📜 userModel.js
  ┣ 📂 routes
- ┃ ┗ 📜 userRoutes.js
+ ┃ ┣ 📜 userRoutes.js
+ ┃ ┗ 📜 authRoutes.js             ← with --auth
+ ┣ 📂 tests
+ ┃ ┣ 📜 user.test.js
+ ┃ ┗ 📜 app.test.js
+ ┣ 📂 .github/workflows
+ ┃ ┗ 📜 ci.yml
  ┣ 📜 .env
  ┣ 📜 .gitignore
+ ┣ 📜 .dockerignore               ← with --docker
+ ┣ 📜 .eslintrc.json              ← new
+ ┣ 📜 .prettierrc                 ← new
+ ┣ 📜 Dockerfile                  ← with --docker
+ ┣ 📜 docker-compose.yml          ← with --docker
+ ┣ 📜 tsconfig.json               ← with --ts
+ ┣ 📜 jest.config.js              ← new
+ ┣ 📜 health.js                   ← new
  ┣ 📜 app.js
- ┣ 📜 index.js
- ┣ 📜 package-lock.json
- ┗ 📜 package.json
+ ┣ 📜 server.js
+ ┣ 📜 package.json
+ ┗ 📜 package-lock.json
 ```
+
+---
 
 ## 🚀 Getting Started
 
 ### ⚡ Prerequisites
 
-- Node.js
+- Node.js (v18+)
 - npm (included with Node.js)
+- MongoDB (local or Atlas)
 
-### 🔥 Installation
+### 🔥 Quick Start
 
-1. Clone the repository
+1. Generate a new project
 
 ```bash
-git clone https://github.com/Bijay-Shre-stha/node-server-package.git
+npx xpress-backend --name my-api --yes
 ```
 
 2. Navigate to the project directory
 
 ```bash
-cd node-server
+cd my-api
 ```
 
 3. Install dependencies
 
 ```bash
-npm install || yarn install
+npm install
 ```
 
-4. Start the development server
+4. Set up your `.env` file
 
 ```bash
-npm run start || yarn start
+cp .env.example .env
+# Edit .env with your MongoDB URI and JWT secret
 ```
 
 ## 🚀 Auto-Release
@@ -151,6 +227,8 @@ Contributions are what make the open-source community such an amazing place to l
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a pull request
+
+---
 
 ## 📝 License
 
