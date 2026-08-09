@@ -23,6 +23,7 @@ program
   .version("1.1.0")
   .option("-n, --name <name>", "Project name", "express-api")
   .option("-t, --template <type>", "Project template (rest, graphql, microservice)", "rest")
+  .option("-d, --database <type>", "Database (mongodb, postgresql, mysql)", "mongodb")
   .option("--ts", "Use TypeScript", false)
   .option("--auth", "Add JWT authentication scaffolding", false)
   .option("--docker", "Add Docker support", false)
@@ -49,6 +50,18 @@ const QUESTIONS = [
       { name: "Microservice — Lightweight service with Docker support", value: "microservice" },
     ],
     default: options.template || "rest",
+    when: () => !options.yes,
+  },
+  {
+    type: "list",
+    name: "database",
+    message: "Select a database:",
+    choices: [
+      { name: "MongoDB — Document database with Mongoose ODM", value: "mongodb" },
+      { name: "PostgreSQL — Relational database with Sequelize ORM", value: "postgresql" },
+      { name: "MySQL — Relational database with Sequelize ORM", value: "mysql" },
+    ],
+    default: "mongodb",
     when: () => !options.yes,
   },
   {
@@ -86,6 +99,7 @@ async function getAnswers() {
     return {
       projectName: options.name,
       template: options.template || "rest",
+      database: options.database || "mongodb",
       useTs: options.ts || false,
       useAuth: options.auth || false,
       useDocker: options.docker || false,
@@ -175,6 +189,35 @@ async function updatePackageJson(projectPath, answers) {
     renameJsToTs(projectPath);
   }
 
+  // Add database-specific dependencies
+  if (answers.database === "postgresql") {
+    packageJson.dependencies = {
+      ...packageJson.dependencies,
+      pg: "^8.11.0",
+      sequelize: "^6.37.0",
+    };
+    // Remove mongoose if present
+    delete packageJson.dependencies.mongoose;
+  } else if (answers.database === "mysql") {
+    packageJson.dependencies = {
+      ...packageJson.dependencies,
+      mysql2: "^3.9.0",
+      sequelize: "^6.37.0",
+    };
+    // Remove mongoose if present
+    delete packageJson.dependencies.mongoose;
+  } else {
+    // MongoDB (default)
+    packageJson.dependencies = {
+      ...packageJson.dependencies,
+      mongoose: "^8.10.1",
+    };
+    // Remove sequelize and db drivers if present
+    delete packageJson.dependencies.pg;
+    delete packageJson.dependencies.mysql2;
+    delete packageJson.dependencies.sequelize;
+  }
+
   if (answers.useAuth) {
     packageJson.dependencies = {
       ...packageJson.dependencies,
@@ -216,6 +259,16 @@ async function runGitInit(projectPath) {
   }
 }
 
+async function updateEnvFile(projectPath, databaseType) {
+  const envPath = path.join(projectPath, ".env");
+  if (await fs.pathExists(envPath)) {
+    let envContent = await fs.readFile(envPath, "utf-8");
+    // Update DB_TYPE
+    envContent = envContent.replace(/^DB_TYPE=.*$/m, `DB_TYPE=${databaseType}`);
+    await fs.writeFile(envPath, envContent);
+  }
+}
+
 async function createProject() {
   console.log(chalk.blue("🚀 Welcome to xpress-backend CLI Generator!"));
   console.log(chalk.gray("   Scaffold your Express.js project in seconds.\n"));
@@ -250,6 +303,9 @@ async function createProject() {
   try {
     await fs.copy(sourceDir, projectPath);
     spinner.succeed(chalk.green("✅ Project created successfully!"));
+
+    // Update .env file with selected database type
+    await updateEnvFile(projectPath, answers.database);
 
     await updatePackageJson(projectPath, answers);
 
