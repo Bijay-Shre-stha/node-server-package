@@ -1,6 +1,6 @@
 {
   "name": "xpress-backend",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Package that helps developers to generate files and folder in structure way, making project organization easier.",
   "main": "index.js",
   "type": "module",
